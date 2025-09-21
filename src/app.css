@@ -4,6 +4,11 @@
 
 *{
     transition: .5s;
+    font-family: "Raleway", sans-serif;
+}
+
+html{
+    font-family: "Raleway", sans-serif;
 }
 
 button {
