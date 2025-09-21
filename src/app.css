@@ -1,0 +1,32 @@
+@import 'tailwindcss';
+@plugin '@tailwindcss/forms';
+@plugin '@tailwindcss/typography';
+
+*{
+    transition: .5s;
+}
+
+button {
+    background-color: #001fa5;
+    padding: .5rem;
+    border-radius: .6rem;
+    color: #fff;
+    cursor: pointer;
+    width: fit-content;
+}
+
+button:hover {
+    background-color: #1237df;
+}
+
+button:disabled {
+    background-color: #7777;
+}
+
+#logs{ 
+    /* width: 100%; */
+    height: 100%;
+}
+
+#logs ul{ background-color: #222; padding: .75rem; border-radius: .75rem; height: 25rem; overflow-y: auto; }
+#logs ul li{ list-style-position: inside; font-size: .85rem; font-family: monospace; }

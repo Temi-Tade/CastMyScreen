@@ -40,7 +40,7 @@ async function SCREEN_RECORD(el){
             const blob = new Blob(chunks, {type: "video/mp4"});
             console.log(blob);
         
-            WRITE_LOG("info", "resolving stream and creating video...")
+            WRITE_LOG("info", "resolving stream and redering video...")
             url = window.URL.createObjectURL(blob);
             videoEl.src = url;
             videoEl.width = 850;
@@ -48,7 +48,7 @@ async function SCREEN_RECORD(el){
         
             VIDEO.innerHTML = "";
             VIDEO.appendChild(videoEl);
-            WRITE_LOG("success", "video creation complete")
+            WRITE_LOG("success", "video render complete")
     
             RECORD_BTN.disabled = false;
         };
@@ -56,12 +56,24 @@ async function SCREEN_RECORD(el){
         recorder.ondataavailable = function(e){
             chunks.push(e.data);
             document.querySelector(".action-btn").style = "display: block";
-            document.querySelector(".action-btn").onclick = function(){
-                const vidLink = document.createElement("a");
-                vidLink.href = url;
+            document.querySelector(".action-btn").onclick = async function(){
+                var fileHandle = await window.showSaveFilePicker({
+                    types: [
+                        {
+                            description: "video",
+                            accept: {"video/mp4": [".mp4"]}
+                        }
+                    ]
+                })
+                
+                var writable = await fileHandle.createWritable();
+                await writable.write(e.data);
+                await writable.close();
+                // const vidLink = document.createElement("a");
+                // vidLink.href = url;
                 WRITE_LOG("info", "creating download link...");
-                vidLink.download = `screen-record_${new Date().toISOString()}.mp4`;
-                vidLink.click();
+                // vidLink.download = `screen-record_${new Date().toISOString()}.mp4`;
+                // vidLink.click();
                 WRITE_LOG("info", "starting download...");
                 document.querySelector("#video").innerHTML = `
                     <div id="placeholder">
@@ -75,3 +87,17 @@ async function SCREEN_RECORD(el){
     }
 }
 
+// window.onclick = async function(){
+//     var fileHandle = await window.showSaveFilePicker({
+//         types: [
+//             {
+//                 description: "video",
+//                 accept: {"video/mp4": [".mp4"]}
+//             }
+//         ]
+//     })
+    
+//     var writable = await fileHandle.createWritable();
+//     await writable.write("Hello");
+//     await writable.close();
+// }

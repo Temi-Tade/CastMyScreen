@@ -27,8 +27,12 @@ class Log {
     }
 }
 
+const LOG = document.querySelector("#logs ul");
+
 function WRITE_LOG(type, message) {
     const log = new Log(type, message);
     log.write();
-    document.querySelector("#logs ul").scrollTop = document.querySelector("#logs ul").scrollHeight;
+    LOG.scrollTop = LOG.scrollHeight;
 }
+
+export { WRITE_LOG }
